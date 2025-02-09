@@ -75,6 +75,8 @@ function openModelViewer(modelPath) {
     animate();
 
 
+
+
     // UI-Элементы (не мешают взаимодействию с 3D Viewer)
     const atopViewerHeader = document.createElement("img");
     atopViewerHeader.src = "css/assets/AtopViewerHeader.png";

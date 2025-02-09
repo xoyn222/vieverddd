@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
+        const clickSound = new Audio("css/assets/mouse-clicks.mp3");
+        const loadSound = new Audio("css/assets/microsoft-windows-95-startup-sound_WwFekK0.mp3");
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadSound.play(); // Воспроизводим звук при загрузке страницы
+
+            document.addEventListener("click", () => {
+                clickSound.currentTime = 0; // Сбрасываем время, чтобы звук играл при каждом нажатии
+                clickSound.play();
+            });
+        });
+    </script>
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
         if (window.TelegramWebviewProxy) {
             // Для мобильных и десктопных приложений
