@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      for (let i = 0; i < 10; i++) {
+        let img = document.createElement("img");
+        img.src = "/css/assets/Background.png"; // Путь к изображению
+        img.classList.add("background-image");
+
+        // Случайное позиционирование
+        img.style.top = Math.random() * window.innerHeight + "px";
+        img.style.left = Math.random() * window.innerWidth + "px";
+
+        document.body.appendChild(img);
+      }
+    });
+  </script>
+  <title>Retro Windows UI</title>
+  <style>
+    html {
+      overflow: hidden;
+    }
+    body {
+
+      position: relative;
+      background-color: white;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      padding: 10px;
+      margin: 0;
+      width: 100vw;
+    }
+    .background-image {
+      position: absolute;
+      width: 400px; /* Размеры можешь изменить */
+      height: auto;
+      z-index: -1;
+    }
+
+    .window-container {
+      position: relative;
+      width: 85vw;
+      max-width: 400px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .windows-image {
+      width: 100%;
+      height: auto;
+    }
+    .content-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 120px;
+      height: auto;
+    }
+    @media (max-width: 430px) {
+      .window-container {
+        width: 90vw;
+        max-width: 320px;
+      }
+      .content-image {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+    @media (max-width: 390px) {
+      .window-container {
+        width: 95vw;
+        max-width: 300px;
+      }
+      .content-image {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+    @media (max-width: 375px) {
+      .window-container {
+        width: 100vw;
+        max-width: 290px;
+      }
+      .content-image {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="window-container">
+  <img class="windows-image" src="/css/assets/IMG_4226.PNG" alt="Retro Windows UI">
+  <img class="content-image" src="/css/assets/Braclete01.png" alt="Content Image">
+</div>
+<div class="window-container">
+  <img class="windows-image" src="/css/assets/IMG_4226.PNG" alt="Retro Windows UI">
+  <img class="content-image" src="/css/assets/Braclete02.png" alt="Content Image">
+</div>
+<div class="window-container">
+  <img class="windows-image" src="/css/assets/IMG_4226.PNG" alt="Retro Windows UI">
+  <img class="content-image" src="/css/assets/Ring.png" alt="Content Image">
+</div>
+</body>
+</html>
