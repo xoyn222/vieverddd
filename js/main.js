@@ -114,15 +114,16 @@ function openModelViewer(modelPath) {
     // **Невидимая кнопка закрытия**
     const closeButton = document.createElement("button");
     closeButton.style.position = "absolute";
-    closeButton.style.top = "2px";
-    closeButton.style.right = "2px";
-    closeButton.style.width = "10px";
-    closeButton.style.height = "10px";
+    closeButton.style.top = "80px";
+    closeButton.style.right = "83vw";
+    closeButton.style.width = "50px";
+    closeButton.style.height = "50px";
     closeButton.style.background = "transparent";
     closeButton.style.border = "none";
-    closeButton.style.opacity = "0";
+    closeButton.style.borderRadius = "50%";
     closeButton.style.cursor = "pointer";
     closeButton.style.zIndex = "1300";
+
 
     closeButton.addEventListener("click", () => {
         document.body.style.cssText = originalBodyStyle; // Восстанавливаем стили

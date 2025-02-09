@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+        if (window.TelegramWebviewProxy) {
+            // Для мобильных и десктопных приложений
+            window.TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
+        } else if (window.external && typeof window.external.notify !== 'undefined') {
+            // Для Windows Phone
+            const data = JSON.stringify({
+                eventType: 'web_app_request_fullscreen',
+                eventData: {},
+            });
+            window.external.notify(data);
+        } else {
+            // Для веб-версии в iframe
+            const data = JSON.stringify({
+                eventType: 'web_app_request_fullscreen',
+            });
+            window.parent.postMessage(data, 'https://web.telegram.org');
+        }
+    });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
             for (let i = 0; i < 200; i++) {
                 let img = document.createElement("img");
                 img.src = "css/assets/MainWindow.png"; // Путь к изображению
@@ -64,7 +85,7 @@
 
         .content-image {
             position: absolute;
-            top: 50%;
+            top: 62%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 100%;
