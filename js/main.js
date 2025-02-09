@@ -15,14 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-let originalBodyStyle = ""; // Храним оригинальные стили body
+let originalBodyStyle = "";
 
 function openModelViewer(modelPath) {
-    // Сохраняем текущие стили перед скрытием
     originalBodyStyle = document.body.style.cssText;
 
-    document.body.style.overflow = "hidden"; // Отключаем скролл
-    document.body.style.display = "none"; // Скрываем сайт
+    document.body.style.overflow = "hidden";
+    document.body.style.display = "none";
 
     const modal = document.createElement("div");
     modal.style.position = "fixed";
@@ -30,7 +29,7 @@ function openModelViewer(modelPath) {
     modal.style.left = "0";
     modal.style.width = "100vw";
     modal.style.height = "100vh";
-    modal.style.background = "black";
+    modal.style.background = "white";
     modal.style.display = "flex";
     modal.style.alignItems = "center";
     modal.style.justifyContent = "center";
@@ -39,21 +38,33 @@ function openModelViewer(modelPath) {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 2;
+    camera.position.set(0, 0, 0.2);  // **Камера ближе к модели**
 
-    const renderer = new THREE.WebGLRenderer({alpha: true});
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xffffff);
     modal.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    controls.enablePan = false;     // **Запрет сдвига модели (Shift)**
+    controls.enableRotate = true;  // **Запрет поворота модели**
+    controls.minDistance = 0.15;     // **Минимальное приближение**
+    controls.maxDistance = 1;     // **Максимальное отдаление**
 
-    const light = new THREE.AmbientLight(0xffffff, 1);
-    scene.add(light);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // Мягкий рассеянный свет
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5); // Свет сверху
+    directionalLight.position.set(0, 5, 5); // Источник света над моделью
+    directionalLight.castShadow = true; // Включаем тени
+    scene.add(directionalLight);
 
     const loader = new GLTFLoader();
     loader.load(modelPath, gltf => {
-        scene.add(gltf.scene);
+        const model = gltf.scene;
+        model.scale.set(1, 1, 1);  // **Увеличиваем модель в 2 раза**
+        scene.add(model);
     }, undefined, error => console.error("Ошибка загрузки GLTF:", error));
 
     function animate() {
@@ -61,7 +72,6 @@ function openModelViewer(modelPath) {
         controls.update();
         renderer.render(scene, camera);
     }
-
     animate();
 
 
@@ -104,10 +114,10 @@ function openModelViewer(modelPath) {
     // **Невидимая кнопка закрытия**
     const closeButton = document.createElement("button");
     closeButton.style.position = "absolute";
-    closeButton.style.top = "10px";
-    closeButton.style.right = "10px";
-    closeButton.style.width = "50px";
-    closeButton.style.height = "50px";
+    closeButton.style.top = "2px";
+    closeButton.style.right = "2px";
+    closeButton.style.width = "10px";
+    closeButton.style.height = "10px";
     closeButton.style.background = "transparent";
     closeButton.style.border = "none";
     closeButton.style.opacity = "0";
