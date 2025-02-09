@@ -15,7 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+let originalBodyStyle = ""; // Храним оригинальные стили body
+
 function openModelViewer(modelPath) {
+    // Сохраняем текущие стили перед скрытием
+    originalBodyStyle = document.body.style.cssText;
+
     document.body.style.overflow = "hidden"; // Отключаем скролл
     document.body.style.display = "none"; // Скрываем сайт
 
@@ -36,7 +41,7 @@ function openModelViewer(modelPath) {
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 2;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     modal.appendChild(renderer.domElement);
 
@@ -47,7 +52,6 @@ function openModelViewer(modelPath) {
     scene.add(light);
 
     const loader = new GLTFLoader();
-    console.log("Загрузка модели:", modelPath);
     loader.load(modelPath, gltf => {
         scene.add(gltf.scene);
     }, undefined, error => console.error("Ошибка загрузки GLTF:", error));
@@ -57,7 +61,9 @@ function openModelViewer(modelPath) {
         controls.update();
         renderer.render(scene, camera);
     }
+
     animate();
+
 
     // UI-Элементы (не мешают взаимодействию с 3D Viewer)
     const atopViewerHeader = document.createElement("img");
@@ -95,22 +101,21 @@ function openModelViewer(modelPath) {
     atopViewerFooter.style.pointerEvents = "none"; // НЕ блокирует клики
     modal.appendChild(atopViewerFooter);
 
-    // **Невидимая кнопка для закрытия**
+    // **Невидимая кнопка закрытия**
     const closeButton = document.createElement("button");
     closeButton.style.position = "absolute";
     closeButton.style.top = "10px";
     closeButton.style.right = "10px";
-    closeButton.style.width = "15px";
-    closeButton.style.height = "15px";
+    closeButton.style.width = "50px";
+    closeButton.style.height = "50px";
     closeButton.style.background = "transparent";
     closeButton.style.border = "none";
-    closeButton.style.opacity = "0"; // Делаем кнопку невидимой
+    closeButton.style.opacity = "0";
     closeButton.style.cursor = "pointer";
-    closeButton.style.zIndex = "1300"; // Поверх всех элементов
+    closeButton.style.zIndex = "1300";
 
     closeButton.addEventListener("click", () => {
-        document.body.style.display = "block"; // Показываем сайт
-        document.body.style.overflow = "auto"; // Включаем скролл
+        document.body.style.cssText = originalBodyStyle; // Восстанавливаем стили
         modal.remove();
     });
 
