@@ -25,7 +25,7 @@ function openModelViewer(modelPath) {
 
     const modal = document.createElement("div");
     modal.style.position = "fixed";
-    modal.style.top = "20px";
+    modal.style.top = "30px";
     modal.style.left = "0";
     modal.style.width = "100vw";
     modal.style.height = "100vh";
