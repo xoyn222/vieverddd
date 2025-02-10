@@ -43,6 +43,17 @@
             }
         });
 
+        // Подтверждение перед закрытием приложения
+        if (window.Telegram.WebApp) {
+            window.Telegram.WebApp.onEvent('web_app_close', function () {
+                const shouldClose = confirm("Вы уверены, что хотите выйти?");
+                if (!shouldClose) {
+                    // Блокируем закрытие
+                    window.Telegram.WebApp.expand(); // Принудительно раскрываем, чтобы отменить закрытие
+                }
+            });
+        }
+        });
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
