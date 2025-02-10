@@ -20,22 +20,9 @@
         document.addEventListener("DOMContentLoaded", function () {
             const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-            if (isMobile) {
+            if (isMobile && window.Telegram && window.Telegram.WebApp) {
                 try {
-                    if (window.TelegramWebviewProxy) {
-                        window.TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
-                    } else if (window.external && typeof window.external.notify !== 'undefined') {
-                        const data = JSON.stringify({
-                            eventType: 'web_app_request_fullscreen',
-                            eventData: {},
-                        });
-                        window.external.notify(data);
-                    } else {
-                        const data = JSON.stringify({
-                            eventType: 'web_app_request_fullscreen',
-                        });
-                        window.parent.postMessage(data, 'https://web.telegram.org');
-                    }
+                    window.Telegram.WebApp.expand(); // Полноэкранный режим
                 } catch (error) {
                     console.error("Ошибка запроса полноэкранного режима:", error);
                 }
@@ -52,6 +39,7 @@
                 }
             });
         });
+
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
