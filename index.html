@@ -5,37 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         const clickSound = new Audio("css/assets/mouse-clicks.mp3");
-        const loadSound = new Audio("css/assets/microsoft-windows-95-startup-sound_WwFekK0.mp3");
-
-        document.addEventListener("DOMContentLoaded", () => {
-            loadSound.play(); // Воспроизводим звук при загрузке страницы
-
-            document.addEventListener("click", () => {
-                clickSound.currentTime = 0; // Сбрасываем время, чтобы звук играл при каждом нажатии
-                clickSound.play();
-            });
+        const enableSound = () => {
+            document.removeEventListener("click", enableSound);
+        };
+        document.addEventListener("click", enableSound);
+        document.addEventListener("click", () => {
+            clickSound.currentTime = 0;
+            clickSound.play();
         });
+
+
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-        if (window.TelegramWebviewProxy) {
-            // Для мобильных и десктопных приложений
-            window.TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
-        } else if (window.external && typeof window.external.notify !== 'undefined') {
-            // Для Windows Phone
-            const data = JSON.stringify({
-                eventType: 'web_app_request_fullscreen',
-                eventData: {},
+            // Проверяем, мобильное ли это устройство
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+            if (isMobile) {
+                if (window.TelegramWebviewProxy) {
+                    window.TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
+                } else if (window.external && typeof window.external.notify !== 'undefined') {
+                    const data = JSON.stringify({
+                        eventType: 'web_app_request_fullscreen',
+                        eventData: {},
+                    });
+                    window.external.notify(data);
+                } else {
+                    const data = JSON.stringify({
+                        eventType: 'web_app_request_fullscreen',
+                    });
+                    window.parent.postMessage(data, 'https://web.telegram.org');
+                }
+            }
+
+            // Подтверждение выхода
+            window.addEventListener("beforeunload", function (event) {
+                event.preventDefault();
+                event.returnValue = "Вы действительно хотите выйти?";
             });
-            window.external.notify(data);
-        } else {
-            // Для веб-версии в iframe
-            const data = JSON.stringify({
-                eventType: 'web_app_request_fullscreen',
-            });
-            window.parent.postMessage(data, 'https://web.telegram.org');
-        }
-    });
+        });
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
