@@ -24,17 +24,14 @@
 
             if (isMobile()) {
                 if (window.TelegramWebviewProxy) {
-                    // Для мобильных приложений
                     window.TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
                 } else if (window.external && typeof window.external.notify !== 'undefined') {
-                    // Для Windows Phone
                     const data = JSON.stringify({
                         eventType: 'web_app_request_fullscreen',
                         eventData: {},
                     });
                     window.external.notify(data);
                 } else {
-                    // Для веб-версии в iframe (на мобильных)
                     const data = JSON.stringify({
                         eventType: 'web_app_request_fullscreen',
                     });
@@ -48,13 +45,22 @@
                 event.returnValue = "Вы уверены, что хотите закрыть приложение?";
             });
 
-            // Перехват закрытия через Telegram Web Apps
+            // Telegram Web Apps API
             if (window.Telegram && window.Telegram.WebApp) {
                 window.Telegram.WebApp.onEvent('backButtonClicked', function () {
                     if (confirm("Вы уверены, что хотите закрыть приложение?")) {
                         window.Telegram.WebApp.close();
                     }
                 });
+
+                window.Telegram.WebApp.onEvent('mainButtonClicked', function () {
+                    if (confirm("Вы уверены, что хотите выйти?")) {
+                        window.Telegram.WebApp.close();
+                    }
+                });
+
+                window.Telegram.WebApp.ready();
+                window.Telegram.WebApp.expand();
             }
         });
 
@@ -97,6 +103,7 @@
         }
 
         .background-image {
+            top: 5%;
             position: absolute;
             width: 350px;
             height: auto;
