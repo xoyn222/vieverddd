@@ -18,26 +18,29 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-            if (isMobile && window.Telegram && window.Telegram.WebApp) {
-                try {
-                    window.Telegram.WebApp.expand(); // Полноэкранный режим
-                } catch (error) {
-                    console.error("Ошибка запроса полноэкранного режима:", error);
-                }
+            function isMobile() {
+                return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             }
 
-            // Подтверждение выхода
-            window.addEventListener("beforeunload", function (event) {
-                event.preventDefault();
-                event.returnValue = "Вы действительно хотите выйти?";
-
-                // Закрываем WebView в Telegram
-                if (window.Telegram && window.Telegram.WebApp) {
-                    window.Telegram.WebApp.close();
+            if (isMobile()) {
+                if (window.TelegramWebviewProxy) {
+                    // Для мобильных приложений
+                    window.TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
+                } else if (window.external && typeof window.external.notify !== 'undefined') {
+                    // Для Windows Phone
+                    const data = JSON.stringify({
+                        eventType: 'web_app_request_fullscreen',
+                        eventData: {},
+                    });
+                    window.external.notify(data);
+                } else {
+                    // Для веб-версии в iframe (на мобильных)
+                    const data = JSON.stringify({
+                        eventType: 'web_app_request_fullscreen',
+                    });
+                    window.parent.postMessage(data, 'https://web.telegram.org');
                 }
-            });
+            }
         });
 
     </script>
@@ -63,7 +66,7 @@
         }
 
         body {
-            top: 0;
+            top: 20px;
             bottom: 0;
             position: relative;
             background-color: white;
