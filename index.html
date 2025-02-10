@@ -18,23 +18,26 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Проверяем, мобильное ли это устройство
             const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
             if (isMobile) {
-                if (window.TelegramWebviewProxy) {
-                    window.TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
-                } else if (window.external && typeof window.external.notify !== 'undefined') {
-                    const data = JSON.stringify({
-                        eventType: 'web_app_request_fullscreen',
-                        eventData: {},
-                    });
-                    window.external.notify(data);
-                } else {
-                    const data = JSON.stringify({
-                        eventType: 'web_app_request_fullscreen',
-                    });
-                    window.parent.postMessage(data, 'https://web.telegram.org');
+                try {
+                    if (window.TelegramWebviewProxy) {
+                        window.TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
+                    } else if (window.external && typeof window.external.notify !== 'undefined') {
+                        const data = JSON.stringify({
+                            eventType: 'web_app_request_fullscreen',
+                            eventData: {},
+                        });
+                        window.external.notify(data);
+                    } else {
+                        const data = JSON.stringify({
+                            eventType: 'web_app_request_fullscreen',
+                        });
+                        window.parent.postMessage(data, 'https://web.telegram.org');
+                    }
+                } catch (error) {
+                    console.error("Ошибка запроса полноэкранного режима:", error);
                 }
             }
 
@@ -42,6 +45,11 @@
             window.addEventListener("beforeunload", function (event) {
                 event.preventDefault();
                 event.returnValue = "Вы действительно хотите выйти?";
+
+                // Закрываем WebView в Telegram
+                if (window.Telegram && window.Telegram.WebApp) {
+                    window.Telegram.WebApp.close();
+                }
             });
         });
     </script>
