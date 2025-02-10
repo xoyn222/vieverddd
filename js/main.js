@@ -81,7 +81,7 @@ function openModelViewer(modelPath) {
     const atopViewerHeader = document.createElement("img");
     atopViewerHeader.src = "css/assets/AtopViewerHeader.png";
     atopViewerHeader.style.position = "absolute";
-    atopViewerHeader.style.top = "2%";
+    atopViewerHeader.style.top = "0";
     atopViewerHeader.style.left = "50%";
     atopViewerHeader.style.transform = "translate( -50%)";
     atopViewerHeader.style.width = "100%";
@@ -93,7 +93,7 @@ function openModelViewer(modelPath) {
     const atopViewerBody = document.createElement("img");
     atopViewerBody.src = "css/assets/AtopViewerBody.png";
     atopViewerBody.style.position = "absolute";
-    atopViewerBody.style.top = "52%";
+    atopViewerBody.style.top = "50%";
     atopViewerBody.style.left = "50%";
     atopViewerBody.style.transform = "translate(-50%, -50%)";
     atopViewerBody.style.height = "100%";
