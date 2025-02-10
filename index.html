@@ -41,19 +41,23 @@
                     window.parent.postMessage(data, 'https://web.telegram.org');
                 }
             }
+
+            // Подтверждение перед закрытием
+            window.addEventListener("beforeunload", function (event) {
+                event.preventDefault();
+                event.returnValue = "Вы уверены, что хотите закрыть приложение?";
+            });
+
+            // Перехват закрытия через Telegram Web Apps
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.onEvent('backButtonClicked', function () {
+                    if (confirm("Вы уверены, что хотите закрыть приложение?")) {
+                        window.Telegram.WebApp.close();
+                    }
+                });
+            }
         });
 
-        // Подтверждение перед закрытием приложения
-        if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.onEvent('web_app_close', function () {
-                const shouldClose = confirm("Вы уверены, что хотите выйти?");
-                if (!shouldClose) {
-                    // Блокируем закрытие
-                    window.Telegram.WebApp.expand(); // Принудительно раскрываем, чтобы отменить закрытие
-                }
-            });
-        }
-        });
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
