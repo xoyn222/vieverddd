@@ -38,32 +38,32 @@
                     window.parent.postMessage(data, 'https://web.telegram.org');
                 }
             }
+        });
+    </script>
+    <script>
 
-            // Подтверждение перед закрытием
-            window.addEventListener("beforeunload", function (event) {
-                event.preventDefault();
-                event.returnValue = "Вы уверены, что хотите закрыть приложение?";
-            });
-
-            // Telegram Web Apps API
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.onEvent('backButtonClicked', function () {
-                    if (confirm("Вы уверены, что хотите закрыть приложение?")) {
-                        window.Telegram.WebApp.close();
-                    }
-                });
-
-                window.Telegram.WebApp.onEvent('mainButtonClicked', function () {
-                    if (confirm("Вы уверены, что хотите выйти?")) {
-                        window.Telegram.WebApp.close();
-                    }
-                });
-
-                window.Telegram.WebApp.ready();
-                window.Telegram.WebApp.expand();
-            }
+        window.addEventListener("beforeunload", function (event) {
+            event.preventDefault();
+            event.returnValue = "Вы уверены, что хотите закрыть приложение?";
         });
 
+        // Telegram Web Apps API
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.onEvent('backButtonClicked', function () {
+                if (confirm("Вы уверены, что хотите закрыть приложение?")) {
+                    window.Telegram.WebApp.close();
+                }
+            });
+
+            window.Telegram.WebApp.onEvent('mainButtonClicked', function () {
+                if (confirm("Вы уверены, что хотите выйти?")) {
+                    window.Telegram.WebApp.close();
+                }
+            });
+
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
