@@ -106,7 +106,7 @@ function openModelViewer(modelPath) {
     const atopViewerFooter = document.createElement("img");
     atopViewerFooter.src = "css/assets/AtopViewerFooter.png";
     atopViewerFooter.style.position = "absolute";
-    atopViewerFooter.style.bottom = "3%";
+    atopViewerFooter.style.bottom = "0%";
     atopViewerFooter.style.width = "100%";
     atopViewerFooter.style.maxWidth = "100%";
     atopViewerFooter.style.zIndex = "1200";
