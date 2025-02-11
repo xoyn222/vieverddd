@@ -2,52 +2,35 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Retro Windows UI</title>
     <script>
-        const clickSound = new Audio("css/assets/mouse-clicks.mp3");
-        const enableSound = () => {
-            document.removeEventListener("click", enableSound);
-        };
-        document.addEventListener("click", enableSound);
-        document.addEventListener("click", () => {
-            clickSound.currentTime = 0;
-            clickSound.play();
+        document.addEventListener("DOMContentLoaded", () => {
+            const clickSound = new Audio("css/assets/mouse-clicks.mp3");
+            clickSound.load();
+            document.addEventListener("click", () => {
+                clickSound.currentTime = 0;
+                clickSound.play();
+            }, { passive: true });
         });
-
-
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            function isMobile() {
-                return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-            }
-
-            if (isMobile()) {
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
                 if (window.TelegramWebviewProxy) {
                     window.TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
-                } else if (window.external && typeof window.external.notify !== 'undefined') {
-                    const data = JSON.stringify({
-                        eventType: 'web_app_request_fullscreen',
-                        eventData: {},
-                    });
-                    window.external.notify(data);
                 } else {
-                    const data = JSON.stringify({
-                        eventType: 'web_app_request_fullscreen',
-                    });
-                    window.parent.postMessage(data, 'https://web.telegram.org');
+                    window.parent.postMessage(JSON.stringify({ eventType: 'web_app_request_fullscreen' }), '*');
                 }
             }
         });
     </script>
     <script>
-
         window.addEventListener("beforeunload", function (event) {
             event.preventDefault();
             event.returnValue = "Вы уверены, что хотите закрыть приложение?";
         });
 
-        // Telegram Web Apps API
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.onEvent('backButtonClicked', function () {
                 if (confirm("Вы уверены, что хотите закрыть приложение?")) {
@@ -67,43 +50,34 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            for (let i = 0; i < 200; i++) {
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i < 100; i++) {
                 let img = document.createElement("img");
-                img.src = "css/assets/MainWindow.png"; // Путь к изображению
+                img.src = "css/assets/MainWindow.png";
                 img.classList.add("background-image");
-
-                // Случайное позиционирование
                 img.style.top = Math.random() * window.innerHeight + "px";
                 img.style.left = Math.random() * window.innerWidth + "px";
-
-                document.body.appendChild(img);
+                fragment.appendChild(img);
             }
+            document.body.appendChild(fragment);
         });
     </script>
-    <title>Retro Windows UI</title>
     <style>
-        html {
+        html, body {
             overflow: hidden;
-        }
-
-        body {
-            top: 0;
-            bottom: 0;
-            position: relative;
+            margin: 0;
+            padding: 0;
             background-color: white;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-around;
+            justify-content: center;
             height: 100vh;
-            font-family: Arial, sans-serif;
-            margin: 0;
             width: 100vw;
+            font-family: Arial, sans-serif;
         }
 
         .background-image {
-            top: 5%;
             position: absolute;
             width: 350px;
             height: auto;
@@ -136,52 +110,30 @@
         }
 
         @media (max-width: 430px) {
-            .window-container {
-                width: 90vw;
-                max-width: 320px;
-            }
-
-            .content-image {
-                width: 100%;
-                max-width: 300px;
-            }
+            .window-container { max-width: 320px; }
+            .content-image { max-width: 300px; }
         }
 
         @media (max-width: 390px) {
-            .window-container {
-                width: 95vw;
-                max-width: 300px;
-            }
-
-            .content-image {
-                width: 100%;
-                max-width: 300px;
-            }
+            .window-container { max-width: 300px; }
         }
 
         @media (max-width: 375px) {
-            .window-container {
-                width: 100vw;
-                max-width: 290px;
-            }
-
-            .content-image {
-                width: 100%;
-            }
+            .window-container { max-width: 290px; }
         }
     </style>
 </head>
 <body>
 <div class="window-container">
-    <img class="windows-image" src="css/assets/MainWindow.png" alt="Retro Windows UI" >
+    <img class="windows-image" src="css/assets/MainWindow.png" alt="Retro Windows UI">
     <img class="content-image" src="css/assets/Braclete01.png" alt="Content Image" data-model="models/Bracelete01/Bracelete01.gltf">
 </div>
 <div class="window-container">
-    <img class="windows-image" src="css/assets/MainWindow.png" alt="Retro Windows UI" >
+    <img class="windows-image" src="css/assets/MainWindow.png" alt="Retro Windows UI">
     <img class="content-image" src="css/assets/Braclete02.png" alt="Content Image" data-model="models/Bracelete02/Bracelete02.gltf">
 </div>
 <div class="window-container">
-    <img class="windows-image" src="css/assets/MainWindow.png" alt="Retro Windows UI" >
+    <img class="windows-image" src="css/assets/MainWindow.png" alt="Retro Windows UI">
     <img class="content-image" src="css/assets/Ring.png" alt="Content Image" data-model="models/Ring/Ring.gltf">
 </div>
 <script type="module" src="js/main.js"></script>

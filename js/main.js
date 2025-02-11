@@ -17,19 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let originalBodyStyle = "";
 
-async function getCachedResource(url) {
-    if ('caches' in window) {
-        const cache = await caches.open("site-cache-v2");
-        const cachedResponse = await cache.match(url);
-        if (cachedResponse) {
-            return cachedResponse.url; // Возвращаем URL из кэша
-        }
-    }
-    return url; // Если в кэше нет, загружаем с сервера
-}
-
-async function openModelViewer(modelPath) {
+function openModelViewer(modelPath) {
     originalBodyStyle = document.body.style.cssText;
+
     document.body.style.overflow = "hidden";
     document.body.style.display = "none";
 
@@ -48,7 +38,7 @@ async function openModelViewer(modelPath) {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 0.2);
+    camera.position.set(0, 0, 0.2);  // **Камера ближе к модели**
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -57,25 +47,23 @@ async function openModelViewer(modelPath) {
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.enablePan = false;
-    controls.enableRotate = true;
-    controls.minDistance = 0.15;
-    controls.maxDistance = 1;
+    controls.enablePan = false;     // **Запрет сдвига модели (Shift)**
+    controls.enableRotate = true;  // **Запрет поворота модели**
+    controls.minDistance = 0.15;     // **Минимальное приближение**
+    controls.maxDistance = 1;     // **Максимальное отдаление**
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // Мягкий рассеянный свет
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    directionalLight.position.set(0, 5, 5);
-    directionalLight.castShadow = true;
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5); // Свет сверху
+    directionalLight.position.set(0, 5, 5); // Источник света над моделью
+    directionalLight.castShadow = true; // Включаем тени
     scene.add(directionalLight);
 
-    // Загружаем модель из кэша, если она там есть
-    const cachedModelPath = await getCachedResource(modelPath);
     const loader = new GLTFLoader();
-    loader.load(cachedModelPath, gltf => {
+    loader.load(modelPath, gltf => {
         const model = gltf.scene;
-        model.scale.set(1, 1, 1);
+        model.scale.set(1, 1, 1);  // **Увеличиваем модель в 2 раза**
         scene.add(model);
     }, undefined, error => console.error("Ошибка загрузки GLTF:", error));
 
@@ -86,7 +74,6 @@ async function openModelViewer(modelPath) {
     }
     animate();
 
-    // UI-Элементы (не мешают взаимодействию с 3D Viewer)
     // UI-Элементы (не мешают взаимодействию с 3D Viewer)
     const atopViewerHeader = document.createElement("img");
     atopViewerHeader.src = "css/assets/AtopViewerHeader.png";
@@ -144,56 +131,3 @@ async function openModelViewer(modelPath) {
 
     modal.appendChild(closeButton);
 }
-    const CACHE_NAME = "site-cache-v2"; // Обнови версию кэша при изменениях
-    const assetsToCache = [
-        "css/assets/mouse-clicks.mp3",
-        "css/assets/click-sound.mp3", // Добавь сюда другие звуковые файлы
-        "css/assets/background-music.mp3", // Пример фоновой музыки
-        "css/assets/MainWindow.png",
-        "css/assets/Braclete01.png",
-        "css/assets/Braclete02.png",
-        "css/assets/Ring.png",
-        "models/Bracelete01/Bracelete01.gltf",
-        "models/Bracelete02/Bracelete02.gltf",
-        "models/Ring/Ring.gltf",
-        "js/main.js",
-        "index.html",
-    ];
-
-// Установка Service Worker и кэширование ресурсов
-    self.addEventListener("install", (event) => {
-        event.waitUntil(
-            caches.open(CACHE_NAME).then((cache) => {
-                return cache.addAll(assetsToCache);
-            })
-        );
-    });
-
-// Перехват запросов и загрузка из кэша
-    self.addEventListener("fetch", (event) => {
-        event.respondWith(
-            caches.match(event.request).then((response) => {
-                return response || fetch(event.request).then((fetchResponse) => {
-                    return caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, fetchResponse.clone());
-                        return fetchResponse;
-                    });
-                });
-            })
-        );
-    });
-
-// Очистка старого кэша при обновлении Service Worker
-    self.addEventListener("activate", (event) => {
-        event.waitUntil(
-            caches.keys().then((cacheNames) => {
-                return Promise.all(
-                    cacheNames.map((cache) => {
-                        if (cache !== CACHE_NAME) {
-                            return caches.delete(cache);
-                        }
-                    })
-                );
-            })
-        );
-    });
