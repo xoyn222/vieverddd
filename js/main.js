@@ -1,6 +1,6 @@
 import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
-import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
+import {OrbitControls} from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
+import {GLTFLoader} from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".content-image").forEach(img => {
@@ -36,10 +36,10 @@ function openModelViewer(modelPath) {
     document.body.parentElement.appendChild(modal);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 0.2);
+    const camera = new THREE.PerspectiveCamera(15, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 0.8);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0xffffff);
     modal.appendChild(renderer.domElement);
@@ -48,21 +48,38 @@ function openModelViewer(modelPath) {
     controls.enableDamping = true;
     controls.enablePan = false;
     controls.enableRotate = true;
-    controls.minDistance = 0.15;
+    controls.minDistance = 0.5;
     controls.maxDistance = 1;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    // Студийное освещение
+    const ambientLight = new THREE.AmbientLight(0xffffff, 3);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    directionalLight.position.set(0, 5, 5);
-    directionalLight.castShadow = true;
-    scene.add(directionalLight);
+    const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight1.position.set(1, 1, 1);
+    scene.add(directionalLight1);
+
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight2.position.set(-1, -1, 1);
+    scene.add(directionalLight2);
 
     const loader = new GLTFLoader();
     loader.load(modelPath, gltf => {
         const model = gltf.scene;
         model.scale.set(1, 1, 1);
+        model.position.set(0, -0.01, 0);
+
+        // Применяем серый металлический материал
+        model.traverse((child) => {
+            if (child.isMesh) {
+                child.material = new THREE.MeshStandardMaterial({
+                    color: 0xA5A5A5,
+                    metalness: 0.95,
+                    roughness: 0.4
+                });
+            }
+        });
+
         scene.add(model);
 
         const mixer = new THREE.AnimationMixer(model);
@@ -81,8 +98,10 @@ function openModelViewer(modelPath) {
             controls.update();
             renderer.render(scene, camera);
         }
+
         animate();
     }, undefined, error => console.error("Ошибка загрузки GLTF:", error));
+
 
     // UI-Элементы (не мешают взаимодействию с 3D Viewer)
     const atopViewerHeader = document.createElement("img");
@@ -139,5 +158,4 @@ function openModelViewer(modelPath) {
     });
 
     modal.appendChild(closeButton);
-
 }

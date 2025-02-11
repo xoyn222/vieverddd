@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <script>
         let audioCtx;
         let soundBuffer;
@@ -54,28 +54,16 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.onEvent("web_app_close", function (event) {
-                    event.preventDefault();
-                    confirmClose();
-                });
+                Telegram.WebApp.web_app_setup_closing_behavior({need_confirm: true});
             }
         });
-
-        function confirmClose() {
-            const isConfirmed = confirm("Вы уверены, что хотите закрыть приложение?");
-            if (isConfirmed) {
-                if (window.Telegram && Telegram.WebApp) {
-                    Telegram.WebApp.close();
-                }
-            }
-        }
     </script>
     <script>
-            let alertVisible = false;
-            let alertTimeout;
-            const alertSound = new Audio("css/assets/erro.mp3"); // Подключаем звук
+        let alertVisible = false;
+        let alertTimeout;
+        const alertSound = new Audio("css/assets/erro.mp3"); // Подключаем звук
 
-            function createAlertl() {
+        function createAlertl() {
             if (alertVisible) return;
             alertVisible = true;
 
@@ -85,11 +73,11 @@
             alert.style.left = "0";
             alert.style.width = "100vw";
             alert.style.height = "100vh";
-            alert.style.background = "rgba(0, 0, 0, 0.8)";
+            alert.style.background = "rgba(0, 0, 0, 0)";
             alert.style.display = "flex";
             alert.style.alignItems = "center";
             alert.style.justifyContent = "center";
-            alert.style.zIndex = "15000";
+            alert.style.zIndex = "10000";
             alert.style.pointerEvents = "auto";
 
             const img = document.createElement("img");
@@ -104,18 +92,18 @@
             alertSound.play().catch(error => console.error("Ошибка воспроизведения звука:", error));
 
             alert.addEventListener("click", () => {
-            alert.remove();
-            alertVisible = false;
-            restartAlertTimer();
-        });
+                alert.remove();
+                alertVisible = false;
+                restartAlertTimer();
+            });
         }
 
-            function restartAlertTimer() {
+        function restartAlertTimer() {
             clearTimeout(alertTimeout);
-            alertTimeout = setTimeout(createAlertl, 5000);
+            alertTimeout = setTimeout(createAlertl, 3000);
         }
 
-            document.addEventListener("DOMContentLoaded", restartAlertTimer);
+        document.addEventListener("DOMContentLoaded", restartAlertTimer);
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -188,11 +176,13 @@
 <body>
 <div class="window-container">
     <img class="windows-image" src="https://i.ibb.co/WvMzdt7m/Main-Window.png" alt="Retro Windows UI">
-    <img class="content-image" src="https://i.ibb.co/6RfkYsFb/Braclete01.png" alt="Braclete01" data-model="models/Bracelete01/Bracelete01.gltf">
+    <img class="content-image" src="https://i.ibb.co/6RfkYsFb/Braclete01.png" alt="Braclete01"
+         data-model="models/Bracelete01/Bracelete01.gltf">
 </div>
 <div class="window-container">
     <img class="windows-image" src="https://i.ibb.co/WvMzdt7m/Main-Window.png" alt="Retro Windows UI">
-    <img class="content-image" src="https://i.ibb.co/yF6KFjTn/Braclete02.png" alt="Braclete02" data-model="models/Bracelete02/Bracelete02.gltf">
+    <img class="content-image" src="https://i.ibb.co/yF6KFjTn/Braclete02.png" alt="Braclete02"
+         data-model="models/Bracelete02/Bracelete02.gltf">
 </div>
 <div class="window-container">
     <img class="windows-image" src="https://i.ibb.co/WvMzdt7m/Main-Window.png" alt="Retro Windows UI">
