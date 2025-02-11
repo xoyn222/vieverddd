@@ -2,7 +2,27 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no orientation=portrait" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no orientation=portrait">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (window.TelegramWebviewProxy) {
+                // Request confirmation before closing the app
+                window.TelegramWebviewProxy.postEvent('web_app_setup_closing_behavior', JSON.stringify({ need_confirmation: true }));
+            } else if (window.external && typeof window.external.notify !== 'undefined') {
+                const data = JSON.stringify({
+                    eventType: 'web_app_setup_closing_behavior',
+                    eventData: { need_confirmation: true }
+                });
+                window.external.notify(data);
+            } else {
+                const data = JSON.stringify({
+                    eventType: 'web_app_setup_closing_behavior',
+                    eventData: { need_confirmation: true }
+                });
+                window.parent.postMessage(data, 'https://web.telegram.org');
+            }
+        });
+    </script>
     <script>
         let audioCtx;
         let soundBuffer;
@@ -125,7 +145,7 @@
             redirectButton.style.background = "transparent";
             redirectButton.style.cursor = "pointer";
             redirectButton.onclick = () => {
-                window.location.href = "https://artasimn.com/";
+                window.open("https://artasimn.com/", "_blank");  // Open in the default browser
             };
 
             imgContainer.appendChild(img);
@@ -143,12 +163,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", restartAlertTimer);
-
     </script>
-
-
-
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             for (let i = 0; i < 200; i++) {
