@@ -54,7 +54,16 @@
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"Material.001"
+			"name":"Material",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3704645037651062,
+					0.3704645037651062,
+					0.3704645037651062,
+					1
+				],
+				"roughnessFactor":0.09717315435409546
+			}
 		}
 	],
 	"meshes":[
@@ -76,23 +85,23 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":152173,
+			"count":152195,
 			"max":[
-				0.004486273508518934,
-				0.011511576361954212,
-				0.011661367490887642
+				0.032606981694698334,
+				0.03975188359618187,
+				0.01242663525044918
 			],
 			"min":[
-				-0.004487308673560619,
-				-0.011482146568596363,
-				-0.011578227393329144
+				-0.03251250460743904,
+				-0.024639075621962547,
+				-0.012367842718958855
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":152173,
+			"count":152195,
 			"type":"VEC3"
 		},
 		{
@@ -106,7 +115,7 @@
 			"componentType":5126,
 			"count":2,
 			"max":[
-				1.3333333333333333
+				2
 			],
 			"min":[
 				0.03333333333333333
@@ -122,9 +131,9 @@
 		{
 			"bufferView":5,
 			"componentType":5126,
-			"count":40,
+			"count":60,
 			"max":[
-				1.3333333333333333
+				2
 			],
 			"min":[
 				0.03333333333333333
@@ -134,53 +143,53 @@
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":40,
+			"count":60,
 			"type":"VEC4"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":1826076,
+			"byteLength":1826340,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1826076,
-			"byteOffset":1826076,
+			"byteLength":1826340,
+			"byteOffset":1826340,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":2335080,
-			"byteOffset":3652152,
+			"byteOffset":3652680,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":8,
-			"byteOffset":5987232
+			"byteOffset":5987760
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":5987240
+			"byteOffset":5987768
 		},
 		{
 			"buffer":0,
-			"byteLength":160,
-			"byteOffset":5987264
+			"byteLength":240,
+			"byteOffset":5987792
 		},
 		{
 			"buffer":0,
-			"byteLength":640,
-			"byteOffset":5987424
+			"byteLength":960,
+			"byteOffset":5988032
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":5988064,
+			"byteLength":5988992,
 			"uri":"Ring.bin"
 		}
 	]

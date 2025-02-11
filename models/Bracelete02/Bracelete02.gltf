@@ -15,13 +15,49 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u0411\u0440\u0430\u0441\u043b\u0435\u0442_\u0410\u0440\u0442\u0430\u0441\u0438\u043c_\u042f\u043a\u043e\u0440\u043a\u0430_\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440"
+			"name":"\u0411\u0440\u0430\u0441\u043b\u0435\u0442_\u0410\u0440\u0442\u0430\u0441\u0438\u043c_\u042f\u043a\u043e\u0440\u043a\u0430_\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440",
+			"rotation":[
+				0,
+				0.9996039867401123,
+				0,
+				0.028139883652329445
+			]
+		}
+	],
+	"animations":[
+		{
+			"channels":[
+				{
+					"sampler":0,
+					"target":{
+						"node":0,
+						"path":"rotation"
+					}
+				}
+			],
+			"name":"\u0411\u0440\u0430\u0441\u043b\u0435\u0442_\u0410\u0440\u0442\u0430\u0441\u0438\u043c_\u042f\u043a\u043e\u0440\u043a\u0430_\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440Acti",
+			"samplers":[
+				{
+					"input":3,
+					"interpolation":"LINEAR",
+					"output":4
+				}
+			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"Material.001"
+			"name":"Material",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3704645037651062,
+					0.3704645037651062,
+					0.3704645037651062,
+					1
+				],
+				"roughnessFactor":0.09717315435409546
+			}
 		}
 	],
 	"meshes":[
@@ -43,23 +79,23 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":220547,
+			"count":220554,
 			"max":[
-				0.009665833786129951,
-				0.046845126897096634,
-				0.02857968583703041
+				0.028581472113728523,
+				0.0468447282910347,
+				0.009897636249661446
 			],
 			"min":[
-				-0.00989763718098402,
+				-0.030223136767745018,
 				-0.03260326758027077,
-				-0.030223136767745018
+				-0.0096658356487751
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":220547,
+			"count":220554,
 			"type":"VEC3"
 		},
 		{
@@ -67,31 +103,59 @@
 			"componentType":5125,
 			"count":841839,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":3,
+			"componentType":5126,
+			"count":40,
+			"max":[
+				1.3333333333333333
+			],
+			"min":[
+				0.03333333333333333
+			],
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":4,
+			"componentType":5126,
+			"count":40,
+			"type":"VEC4"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":2646564,
+			"byteLength":2646648,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":2646564,
-			"byteOffset":2646564,
+			"byteLength":2646648,
+			"byteOffset":2646648,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":3367356,
-			"byteOffset":5293128,
+			"byteOffset":5293296,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":160,
+			"byteOffset":8660652
+		},
+		{
+			"buffer":0,
+			"byteLength":640,
+			"byteOffset":8660812
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":8660484,
+			"byteLength":8661452,
 			"uri":"Bracelete02.bin"
 		}
 	]
