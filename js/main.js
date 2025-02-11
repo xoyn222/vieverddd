@@ -139,4 +139,5 @@ function openModelViewer(modelPath) {
     });
 
     modal.appendChild(closeButton);
+
 }

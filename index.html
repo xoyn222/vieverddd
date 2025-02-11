@@ -52,27 +52,70 @@
         });
     </script>
     <script>
-        window.addEventListener("beforeunload", function (event) {
-            event.preventDefault();
-            event.returnValue = "Вы уверены, что хотите закрыть приложение?";
+        document.addEventListener("DOMContentLoaded", function () {
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.onEvent("web_app_close", function (event) {
+                    event.preventDefault();
+                    confirmClose();
+                });
+            }
         });
 
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.onEvent('backButtonClicked', function () {
-                if (confirm("Вы уверены, что хотите закрыть приложение?")) {
-                    window.Telegram.WebApp.close();
+        function confirmClose() {
+            const isConfirmed = confirm("Вы уверены, что хотите закрыть приложение?");
+            if (isConfirmed) {
+                if (window.Telegram && Telegram.WebApp) {
+                    Telegram.WebApp.close();
                 }
-            });
-
-            window.Telegram.WebApp.onEvent('mainButtonClicked', function () {
-                if (confirm("Вы уверены, что хотите выйти?")) {
-                    window.Telegram.WebApp.close();
-                }
-            });
-
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
+            }
         }
+    </script>
+    <script>
+            let alertVisible = false;
+            let alertTimeout;
+            const alertSound = new Audio("css/assets/erro.mp3"); // Подключаем звук
+
+            function createAlertl() {
+            if (alertVisible) return;
+            alertVisible = true;
+
+            const alert = document.createElement("div");
+            alert.style.position = "fixed";
+            alert.style.top = "0";
+            alert.style.left = "0";
+            alert.style.width = "100vw";
+            alert.style.height = "100vh";
+            alert.style.background = "rgba(0, 0, 0, 0.8)";
+            alert.style.display = "flex";
+            alert.style.alignItems = "center";
+            alert.style.justifyContent = "center";
+            alert.style.zIndex = "15000";
+            alert.style.pointerEvents = "auto";
+
+            const img = document.createElement("img");
+            img.src = "https://i.ibb.co/1YBHJ1QJ/Frame-5271.png";
+            img.style.maxWidth = "80%";
+            img.style.maxHeight = "80%";
+
+            alert.appendChild(img);
+            document.body.parentElement.appendChild(alert);
+
+            // Воспроизводим звук
+            alertSound.play().catch(error => console.error("Ошибка воспроизведения звука:", error));
+
+            alert.addEventListener("click", () => {
+            alert.remove();
+            alertVisible = false;
+            restartAlertTimer();
+        });
+        }
+
+            function restartAlertTimer() {
+            clearTimeout(alertTimeout);
+            alertTimeout = setTimeout(createAlertl, 5000);
+        }
+
+            document.addEventListener("DOMContentLoaded", restartAlertTimer);
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
