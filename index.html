@@ -92,7 +92,7 @@
             source.start(0);
         }
 
-        function createAlertl() {
+        function createAlert() {
             if (alertVisible) return;
             alertVisible = true;
 
@@ -159,7 +159,7 @@
 
         function restartAlertTimer() {
             clearTimeout(alertTimeout);
-            alertTimeout = setTimeout(createAlertl, 3000);
+            alertTimeout = setTimeout(createAlert, 3000);
         }
 
         document.addEventListener("DOMContentLoaded", restartAlertTimer);
