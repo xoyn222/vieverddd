@@ -7,17 +7,17 @@
         document.addEventListener("DOMContentLoaded", function () {
             if (window.TelegramWebviewProxy) {
                 // Request confirmation before closing the app
-                window.TelegramWebviewProxy.postEvent('web_app_setup_closing_behavior', JSON.stringify({ need_confirmation: true }));
+                window.TelegramWebviewProxy.postEvent('web_app_setup_closing_behavior', JSON.stringify({need_confirmation: true}));
             } else if (window.external && typeof window.external.notify !== 'undefined') {
                 const data = JSON.stringify({
                     eventType: 'web_app_setup_closing_behavior',
-                    eventData: { need_confirmation: true }
+                    eventData: {need_confirmation: true}
                 });
                 window.external.notify(data);
             } else {
                 const data = JSON.stringify({
                     eventType: 'web_app_setup_closing_behavior',
-                    eventData: { need_confirmation: true }
+                    eventData: {need_confirmation: true}
                 });
                 window.parent.postMessage(data, 'https://web.telegram.org');
             }
@@ -71,6 +71,7 @@
             }
         });
     </script>
+
     <script>
         let alertBuffer;
         let alertVisible = false;
@@ -159,7 +160,7 @@
 
         function restartAlertTimer() {
             clearTimeout(alertTimeout);
-            alertTimeout = setTimeout(createAlert, 3000);
+            alertTimeout = setTimeout(createAlert, 7000);
         }
 
         document.addEventListener("DOMContentLoaded", restartAlertTimer);
