@@ -166,4 +166,19 @@ function openModelViewer(modelPath) {
     atopViewerFooter.style.pointerEvents = "none"; // НЕ блокирует клики
     modal.appendChild(atopViewerFooter);
 
+    const hiddenButton = document.createElement("button");
+    hiddenButton.style.position = "absolute";
+    hiddenButton.style.bottom = "2%";
+    hiddenButton.style.left = "50%";
+    hiddenButton.style.transform = "translateX(-50%)";
+    hiddenButton.style.width = "35%";
+    hiddenButton.style.height = "5%";
+    hiddenButton.style.background = "transparent";
+    hiddenButton.style.cursor = "pointer";
+    hiddenButton.style.zIndex = "1400";
+    hiddenButton.addEventListener("click", () => {
+        window.open("https://artasimn.com", "_blank");
+    });
+    modal.appendChild(hiddenButton);
+
 }
