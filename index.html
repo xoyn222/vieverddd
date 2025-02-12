@@ -121,9 +121,13 @@
             const img = document.createElement("img");
             img.src = "https://i.ibb.co/FQZ8g0D/Warning.png";
             img.style.width = "80%"
-            img.style.maxWidth = "450px";
+            img.style.maxWidth = "350px";
             img.style.height = "auto";
             img.style.display = "block";
+            if (window.innerWidth <= 375) {
+                img.style.width = "80%";
+                img.style.maxWidth = "300px";
+            }
 
             const closeButton = document.createElement("button");
             closeButton.style.position = "absolute";
@@ -207,9 +211,14 @@
         .background-image {
             top: 5%;
             position: absolute;
-            width: 350px;
+            width: 300px;
             height: auto;
             z-index: -1;
+        }
+
+        @media (max-width: 375px) {
+            .background-image {
+            width: 250px;}
         }
 
         .window-container {
@@ -220,6 +229,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        @media (max-width: 375px) {
+            .window-container {
+                width: 70vw;
+                max-width: 350px;}
         }
 
         .windows-image {
