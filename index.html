@@ -97,6 +97,8 @@
             if (alertVisible) return;
             alertVisible = true;
 
+
+
             const alert = document.createElement("div");
             alert.style.position = "fixed";
             alert.style.top = "0";
@@ -117,18 +119,20 @@
             imgContainer.style.alignItems = "center";
 
             const img = document.createElement("img");
-            img.src = "https://i.ibb.co/1YBHJ1QJ/Frame-5271.png";
-            img.style.maxWidth = "90%";
+            img.src = "https://i.ibb.co/FQZ8g0D/Warning.png";
+            img.style.width = "80%"
+            img.style.maxWidth = "450px";
             img.style.height = "auto";
             img.style.display = "block";
 
             const closeButton = document.createElement("button");
             closeButton.style.position = "absolute";
-            closeButton.style.top = "0";
-            closeButton.style.right = "5%";
-            closeButton.style.width = "5%";
-            closeButton.style.height = "13%";
-            closeButton.style.background = "transparent";
+            closeButton.style.top = "1.5%";
+            closeButton.style.right = "11%";
+            closeButton.style.width = "4.5%";
+            closeButton.style.height = "10%";
+            closeButton.style.background = "red";
+            closeButton.style.opacity = "50%";
             closeButton.style.border = "none";
             closeButton.style.cursor = "pointer";
             closeButton.onclick = () => {
@@ -139,11 +143,12 @@
 
             const redirectButton = document.createElement("button");
             redirectButton.style.position = "absolute";
-            redirectButton.style.top = "62%";
+            redirectButton.style.top = "72.5%";
             redirectButton.style.width = "20%";
-            redirectButton.style.height = "20%";
+            redirectButton.style.height = "17.5%";
             redirectButton.style.border = "none";
-            redirectButton.style.background = "transparent";
+            redirectButton.style.background = "red";
+            redirectButton.style.opacity = "50%";
             redirectButton.style.cursor = "pointer";
             redirectButton.onclick = () => {
                 window.open("https://artasimn.com/", "_blank");  // Open in the default browser
@@ -169,7 +174,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             for (let i = 0; i < 200; i++) {
                 let img = document.createElement("img");
-                img.src = "https://i.ibb.co/WvMzdt7m/Main-Window.png";
+                img.src = "https://i.ibb.co/4R8qYWrp/Main-Window3.png";
                 img.classList.add("background-image");
                 img.style.top = Math.random() * window.innerHeight + "px";
                 img.style.left = Math.random() * window.innerWidth + "px";
@@ -224,7 +229,7 @@
 
         .content-image {
             position: absolute;
-            top: 62%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 100%;
@@ -234,19 +239,17 @@
     </style>
 </head>
 <body>
-<div class="window-container">
-    <img class="windows-image" src="https://i.ibb.co/WvMzdt7m/Main-Window.png" alt="Retro Windows UI">
-    <img class="content-image" src="https://i.ibb.co/6RfkYsFb/Braclete01.png" alt="Braclete01"
-         data-model="models/Bracelete01/Bracelete01.gltf">
+<div class="window-container" data-model="models/Bracelete01/Bracelete01.gltf">
+    <img class="windows-image" src="https://i.ibb.co/4R8qYWrp/Main-Window3.png" alt="Retro Windows UI">
+    <img class="content-image" src="https://i.ibb.co/353WzVt7/Braclete012.png" alt="Braclete01">
 </div>
-<div class="window-container">
-    <img class="windows-image" src="https://i.ibb.co/WvMzdt7m/Main-Window.png" alt="Retro Windows UI">
-    <img class="content-image" src="https://i.ibb.co/yF6KFjTn/Braclete02.png" alt="Braclete02"
-         data-model="models/Bracelete02/Bracelete02.gltf">
+<div class="window-container" data-model="models/Bracelete02/Bracelete02.gltf">
+    <img class="windows-image" src="https://i.ibb.co/4R8qYWrp/Main-Window3.png" alt="Retro Windows UI">
+    <img class="content-image" src="https://i.ibb.co/Kp7ZkJ7K/Braclete022.png" alt="Braclete02">
 </div>
-<div class="window-container">
-    <img class="windows-image" src="https://i.ibb.co/WvMzdt7m/Main-Window.png" alt="Retro Windows UI">
-    <img class="content-image" src="https://i.ibb.co/FqX6JnQG/Ring.png" alt="Ring" data-model="models/Ring/Ring.gltf">
+<div class="window-container" data-model="models/Ring/Ring.gltf">
+    <img class="windows-image" src="https://i.ibb.co/4R8qYWrp/Main-Window3.png" alt="Retro Windows UI">
+    <img class="content-image" src="https://i.ibb.co/5hSz0Cfx/Ring2.png" alt="Ring" >
 </div>
 <script type="module" src="js/main.js"></script>
 </body>

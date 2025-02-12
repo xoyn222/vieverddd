@@ -2,18 +2,15 @@ import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module
 import {OrbitControls} from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
 import {GLTFLoader} from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".content-image").forEach(img => {
-        img.addEventListener("click", () => {
-            const modelPath = img.dataset.model;
-            if (!modelPath) {
-                console.error("Ошибка: путь к модели не задан!");
-                return;
-            }
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".window-container").forEach(button => {
+        button.addEventListener("click", function () {
+            const modelPath = this.getAttribute("data-model");
             openModelViewer(modelPath);
         });
     });
 });
+
 
 let originalBodyStyle = "";
 
@@ -67,15 +64,15 @@ function openModelViewer(modelPath) {
     loader.load(modelPath, gltf => {
         const model = gltf.scene;
         model.scale.set(1, 1, 1);
-        model.position.set(0, -0.01, 0);
+        model.position.set(0, 0, 0);
 
         // Применяем серый металлический материал
         model.traverse((child) => {
             if (child.isMesh) {
                 child.material = new THREE.MeshStandardMaterial({
                     color: 0xA5A5A5,
-                    metalness: 0.95,
-                    roughness: 0.4
+                    metalness: 0.98,
+                    roughness: 0.6
                 });
             }
         });
@@ -104,20 +101,50 @@ function openModelViewer(modelPath) {
 
 
     // UI-Элементы (не мешают взаимодействию с 3D Viewer)
+    // Создаем контейнер для заголовка
+    const atopViewerHeaderContainer = document.createElement("div");
+    atopViewerHeaderContainer.style.position = "absolute"; // Позволяет позиционировать элементы внутри
+    atopViewerHeaderContainer.style.top = "0";
+    atopViewerHeaderContainer.style.left = "50%";
+    atopViewerHeaderContainer.style.transform = "translateX(-50%)"; // Центрируем по горизонтали
+    atopViewerHeaderContainer.style.width = "100%";
+    atopViewerHeaderContainer.style.maxWidth = "100%";
+    atopViewerHeaderContainer.style.zIndex = "1200";
+
+// Создаем изображение заголовка
     const atopViewerHeader = document.createElement("img");
-    atopViewerHeader.src = "css/assets/AtopViewerHeader.png";
-    atopViewerHeader.style.position = "absolute";
-    atopViewerHeader.style.top = "0";
-    atopViewerHeader.style.left = "50%";
-    atopViewerHeader.style.transform = "translate( -50%)";
+    atopViewerHeader.src = "https://i.ibb.co/7N6HF5f3/Atop-Viewer-Header2.png";
     atopViewerHeader.style.width = "100%";
-    atopViewerHeader.style.maxWidth = "100%";
-    atopViewerHeader.style.zIndex = "1200";
     atopViewerHeader.style.pointerEvents = "none"; // НЕ блокирует клики
-    modal.appendChild(atopViewerHeader);
+
+// **Кнопка закрытия**
+    const closeButton = document.createElement("button");
+    closeButton.style.position = "absolute";
+    closeButton.style.top = "22%"; // Регулируйте положение относительно заголовка
+    closeButton.style.right = "84%";
+    closeButton.style.width = "10%";
+    closeButton.style.height = "17%";
+    closeButton.style.background = "red";
+    closeButton.style.opacity = "50%";
+    closeButton.style.border = "none";
+    closeButton.style.cursor = "pointer";
+    closeButton.style.zIndex = "1300";
+
+// Событие нажатия
+    closeButton.addEventListener("click", () => {
+        document.body.style.cssText = originalBodyStyle;
+        modal.remove();
+    });
+
+// Добавляем элементы в контейнер
+    atopViewerHeaderContainer.appendChild(atopViewerHeader);
+    atopViewerHeaderContainer.appendChild(closeButton);
+
+// Добавляем контейнер в `modal`
+    modal.appendChild(atopViewerHeaderContainer);
 
     const atopViewerBody = document.createElement("img");
-    atopViewerBody.src = "css/assets/AtopViewerBody.png";
+    atopViewerBody.src = "https://i.ibb.co/ccDzBDDG/Atop-Viewer-Body.png";
     atopViewerBody.style.position = "absolute";
     atopViewerBody.style.top = "50%";
     atopViewerBody.style.left = "50%";
@@ -130,7 +157,7 @@ function openModelViewer(modelPath) {
     modal.appendChild(atopViewerBody);
 
     const atopViewerFooter = document.createElement("img");
-    atopViewerFooter.src = "css/assets/AtopViewerFooter.png";
+    atopViewerFooter.src = "https://i.ibb.co/VYQtwmbn/Atop-Viewer-Footer2.png";
     atopViewerFooter.style.position = "absolute";
     atopViewerFooter.style.bottom = "0%";
     atopViewerFooter.style.width = "100%";
@@ -139,23 +166,4 @@ function openModelViewer(modelPath) {
     atopViewerFooter.style.pointerEvents = "none"; // НЕ блокирует клики
     modal.appendChild(atopViewerFooter);
 
-    // **Невидимая кнопка закрытия**
-    const closeButton = document.createElement("button");
-    closeButton.style.position = "absolute";
-    closeButton.style.top = "80px";
-    closeButton.style.right = "83vw";
-    closeButton.style.width = "50px";
-    closeButton.style.height = "50px";
-    closeButton.style.background = "transparent";
-    closeButton.style.border = "none";
-    closeButton.style.borderRadius = "50%";
-    closeButton.style.cursor = "pointer";
-    closeButton.style.zIndex = "1300";
-
-    closeButton.addEventListener("click", () => {
-        document.body.style.cssText = originalBodyStyle;
-        modal.remove();
-    });
-
-    modal.appendChild(closeButton);
 }
