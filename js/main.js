@@ -124,7 +124,7 @@ function openModelViewer(modelPath) {
     closeButton.style.right = "84%";
     closeButton.style.width = "10%";
     closeButton.style.height = "17%";
-    closeButton.style.background = "transport";
+    closeButton.style.background = "transparent";
     closeButton.style.opacity = "50%";
     closeButton.style.border = "none";
     closeButton.style.cursor = "pointer";
