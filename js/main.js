@@ -127,7 +127,6 @@ function openModelViewer(modelPath) {
     closeButton.style.background = "transparent";
     closeButton.style.opacity = "50%";
     closeButton.style.border = "none";
-    closeButton.style.cursor = "pointer";
     closeButton.style.zIndex = "1300";
 
 // Событие нажатия
@@ -175,7 +174,6 @@ function openModelViewer(modelPath) {
     hiddenButton.style.height = "5%";
     hiddenButton.style.border = "none";
     hiddenButton.style.background = "transparent";
-    hiddenButton.style.cursor = "pointer";
     hiddenButton.style.zIndex = "1400";
     hiddenButton.addEventListener("click", () => {
         window.open("https://artasimn.com", "_blank");
