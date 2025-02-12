@@ -173,6 +173,7 @@ function openModelViewer(modelPath) {
     hiddenButton.style.transform = "translateX(-50%)";
     hiddenButton.style.width = "35%";
     hiddenButton.style.height = "5%";
+    hiddenButton.style.border = "none";
     hiddenButton.style.background = "transparent";
     hiddenButton.style.cursor = "pointer";
     hiddenButton.style.zIndex = "1400";
