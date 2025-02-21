@@ -152,7 +152,7 @@ function openModelViewer(modelPath) {
     secondCloseButton.style.position = "absolute";
     secondCloseButton.style.top = "1%"; // Регулируйте положение относительно заголовка
     secondCloseButton.style.right = "0%";
-    secondCloseButton.style.width = "6%";
+    secondCloseButton.style.width = "15%";
     secondCloseButton.style.height = "15%";
     secondCloseButton.style.background = "transparent";
     secondCloseButton.style.opacity = "50%";
