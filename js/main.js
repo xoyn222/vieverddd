@@ -35,6 +35,7 @@ function openModelViewer(modelPath) {
     const loadingIndicator = document.createElement("img");
     loadingIndicator.src = "https://i.ibb.co/R404xf2R/loading-windows98.gif";
     loadingIndicator.style.position = "absolute";
+    loadingIndicator.style.maxWidth = "100px";
     loadingIndicator.style.top = "50%";
     loadingIndicator.style.left = "50%";
     loadingIndicator.style.transform = "translate(-50%, -50%)";
