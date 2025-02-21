@@ -32,6 +32,15 @@ function openModelViewer(modelPath) {
     modal.style.zIndex = "1000";
     document.body.parentElement.appendChild(modal);
 
+    const loadingIndicator = document.createElement("img");
+    loadingIndicator.src = "https://i.ibb.co/R404xf2R/loading-windows98.gif";
+    loadingIndicator.style.position = "absolute";
+    loadingIndicator.style.top = "50%";
+    loadingIndicator.style.left = "50%";
+    loadingIndicator.style.transform = "translate(-50%, -50%)";
+    loadingIndicator.style.zIndex = "1500";
+    modal.appendChild(loadingIndicator);
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(15, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 0, 0.8);
@@ -60,13 +69,17 @@ function openModelViewer(modelPath) {
     directionalLight2.position.set(-1, -1, 1);
     scene.add(directionalLight2);
 
-    const loader = new GLTFLoader();
+    const loader = new GLTFLoader(); // Создаем экземпляр перед использованием
+
     loader.load(modelPath, gltf => {
+        if (modal.contains(loadingIndicator)) {
+            modal.removeChild(loadingIndicator);
+        }
+
         const model = gltf.scene;
         model.scale.set(1, 1, 1);
         model.position.set(0, 0, 0);
 
-        // Применяем серый металлический материал
         model.traverse((child) => {
             if (child.isMesh) {
                 child.material = new THREE.MeshStandardMaterial({
@@ -83,8 +96,8 @@ function openModelViewer(modelPath) {
         let clock = new THREE.Clock();
         if (gltf.animations.length > 0) {
             const action = mixer.clipAction(gltf.animations[0]);
-            action.setLoop(THREE.LoopOnce); // Отключаем зацикливание
-            action.clampWhenFinished = true; // Оставить на последнем кадре
+            action.setLoop(THREE.LoopOnce);
+            action.clampWhenFinished = true;
             action.play();
         }
 
@@ -97,7 +110,12 @@ function openModelViewer(modelPath) {
         }
 
         animate();
-    }, undefined, error => console.error("Ошибка загрузки GLTF:", error));
+    }, undefined, error => {
+        console.error("Ошибка загрузки GLTF:", error);
+        if (modal.contains(loadingIndicator)) {
+            modal.removeChild(loadingIndicator);
+        }
+    });
 
 
     // UI-Элементы (не мешают взаимодействию с 3D Viewer)
@@ -129,8 +147,25 @@ function openModelViewer(modelPath) {
     closeButton.style.border = "none";
     closeButton.style.zIndex = "1300";
 
+    const secondCloseButton = document.createElement("button");
+    secondCloseButton.style.position = "absolute";
+    secondCloseButton.style.top = "1%"; // Регулируйте положение относительно заголовка
+    secondCloseButton.style.right = "0%";
+    secondCloseButton.style.width = "6%";
+    secondCloseButton.style.height = "15%";
+    secondCloseButton.style.background = "transparent";
+    secondCloseButton.style.opacity = "50%";
+    secondCloseButton.style.border = "none";
+    secondCloseButton.style.zIndex = "1300";
+
+
 // Событие нажатия
     closeButton.addEventListener("click", () => {
+        document.body.style.cssText = originalBodyStyle;
+        modal.remove();
+    });
+
+    secondCloseButton.addEventListener("click", () => {
         document.body.style.cssText = originalBodyStyle;
         modal.remove();
     });
@@ -138,6 +173,7 @@ function openModelViewer(modelPath) {
 // Добавляем элементы в контейнер
     atopViewerHeaderContainer.appendChild(atopViewerHeader);
     atopViewerHeaderContainer.appendChild(closeButton);
+    atopViewerHeaderContainer.appendChild(secondCloseButton);
 
 // Добавляем контейнер в `modal`
     modal.appendChild(atopViewerHeaderContainer);
