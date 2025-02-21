@@ -38,7 +38,7 @@ function openModelViewer(modelPath) {
     loadingIndicator.style.top = "50%";
     loadingIndicator.style.left = "50%";
     loadingIndicator.style.transform = "translate(-50%, -50%)";
-    loadingIndicator.style.zIndex = "1500";
+    loadingIndicator.style.zIndex = "1200";
     modal.appendChild(loadingIndicator);
 
     const scene = new THREE.Scene();
@@ -127,7 +127,7 @@ function openModelViewer(modelPath) {
     atopViewerHeaderContainer.style.transform = "translateX(-50%)"; // Центрируем по горизонтали
     atopViewerHeaderContainer.style.width = "100%";
     atopViewerHeaderContainer.style.maxWidth = "100%";
-    atopViewerHeaderContainer.style.zIndex = "1200";
+    atopViewerHeaderContainer.style.zIndex = "1300";
 
 // Создаем изображение заголовка
     const atopViewerHeader = document.createElement("img");
