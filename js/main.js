@@ -2,14 +2,34 @@ import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module
 import {OrbitControls} from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
 import {GLTFLoader} from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
+const modelCache = new Map(); // Кеш для моделей
+
+// Предзагрузка модели
+function preloadModel(modelPath) {
+    return new Promise((resolve, reject) => {
+        if (modelCache.has(modelPath)) {
+            resolve(modelCache.get(modelPath));
+        } else {
+            const loader = new GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                modelCache.set(modelPath, gltf);
+                resolve(gltf);
+            }, undefined, reject);
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".window-container").forEach(button => {
+        const modelPath = button.getAttribute("data-model");
+        preloadModel(modelPath); // Предзагрузка моделей
+
         button.addEventListener("click", function () {
-            const modelPath = this.getAttribute("data-model");
             openModelViewer(modelPath);
         });
     });
 });
+
 
 
 let originalBodyStyle = "";
@@ -70,16 +90,15 @@ function openModelViewer(modelPath) {
     directionalLight2.position.set(-1, -1, 1);
     scene.add(directionalLight2);
 
-    const loader = new GLTFLoader(); // Создаем экземпляр перед использованием
-
-    loader.load(modelPath, gltf => {
+    preloadModel(modelPath).then(gltf => {
         if (modal.contains(loadingIndicator)) {
             modal.removeChild(loadingIndicator);
         }
 
-        const model = gltf.scene;
+        const model = gltf.scene.clone();
         model.scale.set(1, 1, 1);
         model.position.set(0, 0, 0);
+
 
         model.traverse((child) => {
             if (child.isMesh) {
